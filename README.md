@@ -10,6 +10,7 @@ on Linux or as a local Windows listen/dedicated server.
 | Path | What |
 |------|------|
 | `Dockerfile`, `docker-compose.yml`, `entrypoint.sh` | Headless Linux server image: installs CS:S DS (SteamCMD app 232330) + Linux Metamod:Source & SourceMod, overlays the mod |
+| `docker-compose.ghcr.yml` | Run the **prebuilt** image from `ghcr.io` — no build, no local files needed |
 | `gather-mod.ps1` | Collects the platform-independent mod files (plugins, cfg, maps, sounds) from a CS:S install into `css-mod/` |
 | `src/` | **Custom SourcePawn plugins** (the original work) |
 | `config/` | Tuned configs (server.cfg, GunGame config + weapon ladder, plugin cvars) |
@@ -27,7 +28,31 @@ on Linux or as a local Windows listen/dedicated server.
 Compile with the SourceMod compiler: `spcomp dm_respawn.sp` (needs the GunGame
 includes from <https://github.com/altexdim/sourcemod-plugin-gungame>).
 
-## Run it on Linux (Docker)
+## Run from the prebuilt image (easiest — no build)
+
+A ready-to-run image is published to the GitHub Container Registry with
+everything baked in (CS:S server, Metamod/SourceMod, plugins, configs, maps):
+
+```bash
+# If the package is private, log in once (token needs read:packages):
+docker login ghcr.io -u silasjoisten
+
+# Pull + run via the provided compose file:
+docker compose -f docker-compose.ghcr.yml up -d
+docker compose -f docker-compose.ghcr.yml logs -f
+```
+
+Or without compose:
+```bash
+docker run -d --name gungame-css --restart unless-stopped \
+  -p 27015:27015/udp -p 27015:27015/tcp \
+  ghcr.io/silasjoisten/gungame-css:latest
+```
+
+Then connect in CS:S: `connect <linux-host-ip>:27015` (open UDP 27015 on the host).
+Tune via env vars: `SRCDS_PORT`, `SRCDS_MAXPLAYERS`, `SRCDS_STARTMAP` (unset = random map).
+
+## Build it yourself (Docker)
 
 > Maps and compiled plugins are **not** in this repo (too large / build artifacts).
 > You supply them locally before building:
