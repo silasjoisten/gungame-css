@@ -14,6 +14,7 @@ on Linux or as a local Windows listen/dedicated server.
 | `src/` | **Custom SourcePawn plugins** (the original work) |
 | `config/` | Tuned configs (server.cfg, GunGame config + weapon ladder, plugin cvars) |
 | `windows/` | Helper `.bat` scripts for running locally on Windows |
+| `maps/` | **Drop your `.bsp` map files here** — they get baked into the image (contents gitignored) |
 | `mapcycle.txt` | Sample map rotation (gg_/aim_/fy_) |
 
 ### Custom plugins (`src/`)
@@ -29,14 +30,17 @@ includes from <https://github.com/altexdim/sourcemod-plugin-gungame>).
 ## Run it on Linux (Docker)
 
 > Maps and compiled plugins are **not** in this repo (too large / build artifacts).
-> Generate the `css-mod/` overlay from a real CS:S install first.
+> You supply them locally before building:
+> - **Maps:** drop your `gg_/aim_/fy_` `*.bsp` files into the **`maps/`** folder.
+> - **Plugins + cfg + sounds:** generated into `css-mod/`.
 
-1. **Build the overlay** (on a machine with a CS:S install, e.g. Windows):
+1. **Provide maps + the overlay** (on a machine with a CS:S install, e.g. Windows):
    ```powershell
    powershell -ExecutionPolicy Bypass -File gather-mod.ps1 -CsRoot "D:\SteamLibrary\steamapps\common\Counter-Strike Source"
    ```
-   This fills `css-mod/` (incl. the gg_/aim_/fy_ maps).
-2. Get the repo **and** the populated `css-mod/` onto the Linux host.
+   This fills `css-mod/` (plugins, cfg, sounds, translations) **and** `maps/` (the `.bsp` files).
+   *Or* just drop `.bsp` files into `maps/` by hand and supply `css-mod/` another way.
+2. Get the repo **and** the populated `css-mod/` + `maps/` onto the Linux host.
 3. Build & run:
    ```bash
    docker compose up -d --build

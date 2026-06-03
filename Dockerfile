@@ -38,10 +38,14 @@ RUN set -eux; \
     wget -q "https://sm.alliedmods.net/smdrop/1.12/${SM}" -O /tmp/sm.tgz; \
     tar xzf /tmp/sm.tgz; rm /tmp/sm.tgz
 
-# 3) Overlay YOUR GunGame mod (compiled .smx plugins, cfg, maps, sounds, translations).
-#    These files are platform-independent and sit on top of the Linux MM:S/SM cores.
-#    Populate ./css-mod first by running docker/gather-mod.ps1 on the Windows machine.
+# 3a) Overlay the GunGame mod (compiled .smx plugins, cfg, sounds, translations).
+#     Platform-independent, sits on top of the Linux MM:S/SM cores.
+#     Populate ./css-mod first with gather-mod.ps1 (see README).
 COPY --chown=steam:steam css-mod/ ${CSTRIKE}/
+
+# 3b) Map files. Drop your gg_/aim_/fy_ *.bsp into the ./maps/ folder and they
+#     get baked into the server here. (gather-mod.ps1 also fills ./maps/ for you.)
+COPY --chown=steam:steam maps/ ${CSTRIKE}/maps/
 
 # entrypoint (needs root to chmod, then drop back to steam)
 USER root

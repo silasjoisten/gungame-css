@@ -74,12 +74,12 @@ if (Test-Path $mc) { Copy-Item $mc $dest -Force }
 Copy-Into "sound\gungame" "sound\gungame"
 Write-Host "  translations, configs, cfg/gungame, cfg/sourcemod, mapcycle, sounds"
 
-# --- Maps (gg_/aim_/fy_) - the big part ------------------------------------
-$mapsDst = Join-Path $dest "maps"
+# --- Maps (gg_/aim_/fy_) -> the repo ./maps/ folder (NOT css-mod) -----------
+$mapsDst = Join-Path $PSScriptRoot "maps"
 New-Item -ItemType Directory -Path $mapsDst -Force | Out-Null
 $maps = Get-ChildItem (Join-Path $cstrike "maps") -Filter "*.bsp" | Where-Object { $_.BaseName -match '^(gg|aim|fy)_' }
 foreach ($m in $maps) { Copy-Item $m.FullName $mapsDst -Force }
 $mb = [math]::Round((($maps | Measure-Object Length -Sum).Sum / 1MB), 0)
-Write-Host ("  {0} maps (~{1} MB)" -f $maps.Count, $mb)
+Write-Host ("  {0} maps (~{1} MB) -> ./maps/" -f $maps.Count, $mb)
 
 Write-Host "`nDone -> $dest`nNow:  docker compose up -d --build"

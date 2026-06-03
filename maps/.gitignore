@@ -1,0 +1,5 @@
+# Drop your gg_/aim_/fy_ *.bsp map files into THIS folder.
+# They get baked into the Docker image at build time, but are NOT committed to
+# git (too large). gather-mod.ps1 also fills this folder automatically.
+*
+!.gitignore
