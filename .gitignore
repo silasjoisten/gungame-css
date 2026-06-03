@@ -1,0 +1,15 @@
+# Generated mod overlay (large maps + compiled plugins + sounds).
+# Produce it locally with gather-mod.ps1 from a CS:S install.
+css-mod/
+
+# Never commit game maps or compiled artifacts
+*.bsp
+*.smx
+*.nav
+*.ain
+*.sound.cache
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp

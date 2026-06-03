@@ -1,0 +1,24 @@
+services:
+  gungame:
+    build: .
+    image: gungame-css:latest
+    container_name: gungame-css
+    restart: unless-stopped
+
+    # CS:S uses UDP for game traffic; TCP is for rcon.
+    ports:
+      - "27015:27015/udp"
+      - "27015:27015/tcp"
+
+    environment:
+      SRCDS_PORT: "27015"
+      SRCDS_MAXPLAYERS: "16"
+      # SRCDS_STARTMAP: "gg_simpsons_dust2"   # leave unset = random map each start
+
+    # Optional: tune configs WITHOUT rebuilding the image by bind-mounting them.
+    # (Uncomment, edit files under ./css-mod/cfg, then `docker compose restart`.)
+    # volumes:
+    #   - ./css-mod/cfg:/home/steam/css/cstrike/cfg
+
+    stop_grace_period: 30s
+    tty: true

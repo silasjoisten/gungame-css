@@ -1,0 +1,50 @@
+"GunGame.Weapon"
+{
+    "WeaponOrder"
+    {
+        /**
+         * Full weapon ladder: EVERY weapon in Counter-Strike: Source,
+         * progressing weak -> strong, ending on the classic knife level.
+         * The hegrenade level has been removed on purpose (no grenades).
+         *
+         * RULE: levels must be sequential, do NOT skip numbers.
+         */
+
+        "1"  "glock"
+        "2"  "usp"
+        "3"  "p228"
+        "4"  "fiveseven"
+        "5"  "deagle"
+        "6"  "elite"
+        "7"  "m3"
+        "8"  "xm1014"
+        "9"  "mac10"
+        "10" "tmp"
+        "11" "mp5navy"
+        "12" "ump45"
+        "13" "p90"
+        "14" "galil"
+        "15" "famas"
+        "16" "ak47"
+        "17" "m4a1"
+        "18" "sg552"
+        "19" "aug"
+        "20" "scout"
+        "21" "awp"
+        "22" "sg550"
+        "23" "g3sg1"
+        "24" "m249"
+        "25" "knife"
+
+        /* Keep these levels fixed if RandomWeaponOrder is on (off here). */
+        "RandomWeaponReserveLevels" ""
+
+        /* 0 = keep the order above, 1 = shuffle the order each map. */
+        "RandomWeaponOrder" "0"
+    }
+
+    "MultipleKillsPerLevel"
+    {
+        /* Override kills-per-level here if desired, e.g. "1" "2". Empty = use default. */
+    }
+}
