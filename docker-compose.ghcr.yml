@@ -1,0 +1,26 @@
+# Run the prebuilt image straight from GitHub Container Registry.
+# Everything (CS:S server, Metamod/SourceMod, plugins, configs, maps) is baked in.
+#
+#   docker compose -f docker-compose.ghcr.yml up -d
+#   docker compose -f docker-compose.ghcr.yml logs -f
+#
+# If the package is private, first:  docker login ghcr.io -u silasjoisten
+services:
+  gungame:
+    image: ghcr.io/silasjoisten/gungame-css:latest
+    container_name: gungame-css
+    restart: unless-stopped
+    pull_policy: always          # always grab the newest pushed image
+
+    # CS:S uses UDP for game traffic; TCP is for rcon.
+    ports:
+      - "27015:27015/udp"
+      - "27015:27015/tcp"
+
+    environment:
+      SRCDS_PORT: "27015"
+      SRCDS_MAXPLAYERS: "16"
+      # SRCDS_STARTMAP: "gg_simpsons_dust2"   # leave unset = random map each start
+
+    stop_grace_period: 30s
+    tty: true
